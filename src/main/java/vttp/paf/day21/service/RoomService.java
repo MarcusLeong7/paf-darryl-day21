@@ -16,4 +16,16 @@ public class RoomService {
     public List<Room> getAllRooms() {
         return roomRepo.getRooms();
     }
+
+    public Room getRoomById(int id) {
+        return roomRepo.getRoom(id);
+    }
+
+    public Boolean deleteRoomById(int id) {
+        return roomRepo.deleteRoom(id);
+    }
+
+    public Boolean updateRoom(int id, Room room) {
+        return roomRepo.updateRoom(id, room);
+    }
 }
