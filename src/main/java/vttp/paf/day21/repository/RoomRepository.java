@@ -1,0 +1,34 @@
+package vttp.paf.day21.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Repository;
+import vttp.paf.day21.model.Room;
+import vttp.paf.day21.utils.sql;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public class RoomRepository {
+
+    @Autowired
+    private JdbcTemplate template;
+
+    // PAF Day 21 - slide 26/27
+    public List<Room> getRooms() {
+        final List<Room> rooms = new ArrayList<>();
+        SqlRowSet rs = template.queryForRowSet(sql.SQL_GET_ALL_ROOMS);
+        while (rs.next()) {
+            Room room = new Room();
+            room.setId(rs.getInt("id"));
+            room.setRoom_type(rs.getString("room_type"));
+            room.setPrice(rs.getFloat("price"));
+            rooms.add(room);
+        }
+
+        return rooms;
+    }
+
+}
