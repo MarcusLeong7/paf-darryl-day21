@@ -22,7 +22,7 @@ public class CustomerService {
     }
 
     public Customer getCustomer(int id) {
-        return customerRepo.getCustomer(id);
+        return customerRepo.getCustomerById(id);
     }
 
     public Boolean deleteCustomer(int id) {
@@ -33,4 +33,7 @@ public class CustomerService {
         return customerRepo.updateCustomer(id,customer);
     }
 
+    public Boolean insertCustomer(Customer customer) {
+        return customerRepo.insertNewCustomer(customer);
+    }
 }

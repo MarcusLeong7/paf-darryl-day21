@@ -54,4 +54,10 @@ public class CustomerRestController {
         Boolean customerUpdated = customerSvc.updateCustomer(id,customer);
         return ResponseEntity.ok().body(customerUpdated);
     }
+
+    @PostMapping
+    public ResponseEntity<Boolean> createCustomer(@RequestBody Customer customer) {
+        Boolean customerCreated = customerSvc.insertCustomer(customer);
+        return ResponseEntity.ok().body(customerCreated);
+    }
 }

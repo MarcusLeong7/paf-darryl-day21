@@ -1,11 +1,13 @@
 package vttp.paf.day21.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import vttp.paf.day21.model.Customer;
+import vttp.paf.day21.model.Exception.ResourceNotFoundException;
 import vttp.paf.day21.utils.sql;
 
 import java.util.ArrayList;
@@ -26,6 +28,10 @@ public class CustomerRepository {
             customer.setFull_name(rs.getString("full_name"));
             customer.setEmail(rs.getString("email"));
             customers.add(customer);
+        }
+
+        if (customers.isEmpty()) {
+            throw new ResourceNotFoundException("No customers found");
         }
 
         return customers;
@@ -60,6 +66,20 @@ public class CustomerRepository {
         }
     }
 
+    // Alternative Method
+    public Customer getCustomerById(int id) {
+       try {
+           Customer c = template.queryForObject(sql.SQL_GET_CUSTOMER_BY_ID,
+                   BeanPropertyRowMapper.newInstance(Customer.class), id);
+
+           System.out.println(c.toString());
+           return c;
+       } catch (DataAccessException ex) {
+           throw new ResourceNotFoundException("Customer with ID " + id + " not found");
+       }
+
+    }
+
     public Boolean deleteCustomer(int id) {
         int customerDeleted = template.update(sql.SQL_DELETE_CUSTOMER_BY_ID, id);
         if (customerDeleted > 0) {
@@ -77,4 +97,14 @@ public class CustomerRepository {
         }
         return false;
     }
+
+    public Boolean insertNewCustomer(Customer customer) {
+        int customerCreated = template.update(sql.SQL_INSERT_CUSTOMER, customer.getFull_name(), customer.getEmail());
+        if (customerCreated > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

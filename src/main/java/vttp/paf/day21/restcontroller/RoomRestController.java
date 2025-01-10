@@ -23,22 +23,32 @@ public class RoomRestController {
         return ResponseEntity.ok().body(rooms);
     }
 
+    // Read
     @GetMapping("/{room_id}")
     public ResponseEntity<Room> getRoomById(@PathVariable("room_id") int id) {
         Room room = roomSvc.getRoomById(id);
         return ResponseEntity.ok().body(room);
     }
 
+    // Delete
     @DeleteMapping("/{room_id}")
     public ResponseEntity<Boolean> deleteRoomById(@PathVariable("room_id") int id) {
         Boolean roomDeleted = roomSvc.deleteRoomById(id);
         return ResponseEntity.ok().body(roomDeleted);
     }
 
+    // Update
     @PutMapping("/{room_id}")
     public ResponseEntity<Boolean> updateRoomById(@PathVariable("room_id") int id,
                                                   @RequestBody Room room) {
         Boolean roomUpdated = roomSvc.updateRoom(id, room);
         return ResponseEntity.ok().body(roomUpdated);
+    }
+
+    // Create
+    @PostMapping
+    public ResponseEntity<Boolean> createRoom(@RequestBody Room room) {
+        Boolean roomCreated = roomSvc.addRoom(room);
+        return ResponseEntity.ok().body(roomCreated);
     }
 }

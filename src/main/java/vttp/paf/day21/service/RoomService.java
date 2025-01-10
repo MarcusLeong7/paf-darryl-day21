@@ -28,4 +28,6 @@ public class RoomService {
     public Boolean updateRoom(int id, Room room) {
         return roomRepo.updateRoom(id, room);
     }
+
+    public Boolean addRoom(Room room) {return roomRepo.insertNewRoom(room);}
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import vttp.paf.day21.model.Customer;
 import vttp.paf.day21.model.Room;
 import vttp.paf.day21.utils.sql;
 
@@ -63,5 +64,13 @@ public class RoomRepository {
         }
         return false;
 
+    }
+
+    public Boolean insertNewRoom(Room room) {
+        int roomCreated = template.update(sql.SQL_INSERT_ROOM, room.getRoom_type(),room.getPrice());
+        if (roomCreated > 0) {
+            return true;
+        }
+        return false;
     }
 }
